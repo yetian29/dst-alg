@@ -60,8 +60,9 @@ void freeHashTable(HashTable *table)
 		HashNode *current_node = table -> buckets[i];
 		while (current_node != NULL)
 		{
+			HashNode *tmp = current_node; 
 			current_node = current_node -> next;
-			free(current_node);
+			free(tmp);
 		}
 	}
 	free(table -> buckets);
@@ -71,9 +72,21 @@ void freeHashTable(HashTable *table)
 int main(void)
 {
 	int nums[] = {2, 3, 4, 5, 6, 7};
+	int size = sizeof(nums) / sizeof(nums[0]);
 	HashTable *table = createHashTable(size);
 	int target = 7;
 	HashNode *found = find(table, target);
+	if (found != NULL)
+	{
+		printf("Node is found with value: %d and index: %d\n", found -> key, found -> index);
+	}
+	else
+	{
+		for (int i = 0; i < size; i++)
+		{
+			HashNode *new_node = push(table, nums[i], i);
+		}
+	}
 	freeHashTable(table);
 	return 0;
 }
