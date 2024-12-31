@@ -30,8 +30,8 @@ unsigned int hash(int key, unsigned int size)
 
 HashNode *find(HashTable *table, int key)
 {
-	unsigned int index = hash(key, table -> size);
-	HashNode *node_current = table -> buckets[index];
+	unsigned int bucket_index = hash(key, table -> size);
+	HashNode *node_current = table -> buckets[bucket_index];
 	while (node_current != NULL)
 	{
 		if(node_current -> key == key) return node_current;
@@ -78,7 +78,7 @@ int main(void)
 	for (int i = 0; i < size; i++)
 	{
 		HashNode *new_node = push(table, nums[i], i);
-		printf("New node with value: %d at index: %d\n", new_node -> key, new_node_index);
+		printf("The New nodes in buckets with value: %d\n", new_node -> key);
 	}
 	HashNode *found = find(table, target);
 	if (found == NULL)
@@ -87,7 +87,7 @@ int main(void)
 	}
 	else 
 	{
-		prinf("Found at index: %d\n", found -> index);
+		printf("Found");
 	}
 	
 	freeHashTable(table);
