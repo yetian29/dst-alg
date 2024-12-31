@@ -19,23 +19,23 @@ typedef struct
 
 unsigned int hash(const int key, int size)
 {
-	hash_index = abs(key) % size;
+	unsigned int hash_index = abs(key) % size;
 	return hash_index;
 
 }
 
-HashTable *createHashTable(size)
+HashTable *createHashTable(int size)
 {
 	HashTable *table;
 	table = malloc(sizeof(*table));
 	table -> buckets = (HashNode **)calloc(size, sizeof(HashNode*));
 	table -> size = size;
-	return table
+	return table;
 }
 
 HashNode *find(HashTable *table, int key)
 {
-	hash_index = hash(key, table -> size);
+	unsigned int hash_index = hash(key, table -> size);
 	HashNode *node_current = table -> buckets[hash_index];
 	while(node_current != NULL)
 	{
@@ -48,10 +48,11 @@ HashNode *find(HashTable *table, int key)
 
 void insert(HashTable *table, int key, int index)
 {
-	hash_index = hash(key, table -> size);
+	unsigned int hash_index = hash(key, table -> size);
 	HasNode *new_node = (HashNode *)malloc(sizeof(*new_node));
 	new_node -> key = key;
 	new_node -> index = index;
+	new_node -> next = table -> buckets[hash_index];
 	table -> buckets[hash_index] = new_node;
 }
 
@@ -63,8 +64,8 @@ void freeHashTable(HashTable *table)
 		while (node_current != NULL)
 		{
 			HashNode *tmp = node_current;
-			free(node_current);
-			node_current = tmp -> next;
+			node_current = node_current -> next;
+			free(tmp);
 		
 		}
 
@@ -106,6 +107,8 @@ int main(void)
 	int size = sizeof(nums) / sizeof(nums[0]);
 	int returnSize;
 	int *result = twoSum(nums, size, target, &returnSize);
+
+	free(result);
 
 
 	return 0;
