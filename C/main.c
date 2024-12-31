@@ -75,18 +75,21 @@ int main(void)
 	int size = sizeof(nums) / sizeof(nums[0]);
 	HashTable *table = createHashTable(size);
 	int target = 7;
+	for (int i = 0; i < size; i++)
+	{
+		HashNode *new_node = push(table, nums[i], i);
+		printf("New node with value: %d at index: %d\n", new_node -> key, new_node_index);
+	}
 	HashNode *found = find(table, target);
-	if (found != NULL)
+	if (found == NULL)
 	{
-		printf("Node is found with value: %d and index: %d\n", found -> key, found -> index);
+		printf("Not Found");
 	}
-	else
+	else 
 	{
-		for (int i = 0; i < size; i++)
-		{
-			HashNode *new_node = push(table, nums[i], i);
-		}
+		prinf("Found at index: %d\n", found -> index);
 	}
+	
 	freeHashTable(table);
 	return 0;
 }
