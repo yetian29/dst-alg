@@ -83,11 +83,11 @@ int main(void)
 	HashNode *found = find(table, target);
 	if (found == NULL)
 	{
-		printf("Not Found");
+		printf("Not Found\n");
 	}
 	else 
 	{
-		printf("Found");
+		printf("Found\n");
 	}
 	
 	freeHashTable(table);
