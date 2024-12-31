@@ -41,7 +41,7 @@ HashNode *find(HashTable *table, int key)
 
 
 }
-HashNode *push(HashTable *table, int key, int index)
+void push(HashTable *table, int key, int index)
 {
 	unsigned int bucket_index = hash(key, table -> size);
 	HashNode *new_node = (HashNode *)malloc(sizeof(*new_node));
@@ -77,8 +77,7 @@ int main(void)
 	int target = 7;
 	for (int i = 0; i < size; i++)
 	{
-		HashNode *new_node = push(table, nums[i], i);
-		printf("The New nodes in buckets with value: %d\n", new_node -> key);
+		push(table, nums[i], i);
 	}
 	HashNode *found = find(table, target);
 	if (found == NULL)
