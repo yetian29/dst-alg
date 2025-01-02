@@ -64,7 +64,7 @@ HashNode *delete(HashTable *table, int key)
 		{
 			HashNode *tmp = node_current;
 			table -> buckets[i] = node_current -> next;
-			node_current = node_current -> next;
+			
 			return tmp;
 		}
 		else if ((node_current -> next) -> key == key)
@@ -73,9 +73,9 @@ HashNode *delete(HashTable *table, int key)
 			node_current -> next = tmp -> next;
 			return tmp;
 		}
-		return NULL;
-	
+		node_current = node_current -> next;		
 	}
+	return NULL;
 }
 
 void freeHashTable(HashTable *table)
