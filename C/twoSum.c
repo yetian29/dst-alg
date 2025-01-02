@@ -117,75 +117,8 @@
 
 
 #include <stdio.h>
-#include <stdlib.h>
+#include "hash.h"
 
-typedef struct HashNode
-{
-	int key;
-	unsigned int index;
-	struct HashNode *next;
-} HashNode;
-
-typedef struct
-{
-	HashNode **buckets;
-	unsigned int size;
-} HashTable;
-
-unsigned int hash(int key, unsigned int size)
-{
-	return abs(key) % size;
-}
-
-HashTable *createHashTable(unsigned int size)
-{
-	HashTable *table = (HashTable *)malloc(sizeof(HashTable));
-	HashNode **buckets = (HashNode **)calloc(size, sizeof(HashNode *));
-	table -> buckets = buckets;
-	table -> size = size;
-	return table;
-}
-
-HashNode *find(HashTable *table, int key)
-{
-	unsigned int i = hash(key, table -> size);
-	HashNode *node_current = table -> buckets[i];
-	while (node_current != NULL)
-	{
-		if (node_current -> key == key) return node_current;
-		node_current = node_current -> next;
-
-	}
-	return NULL;
-
-}
-void push(HashTable *table, int key, unsigned int index)
-{
-	unsigned int i = hash(key, table -> size);
-	HashNode *tmp = table -> buckets[i];
-	HashNode *new_node = (HashNode *)malloc(sizeof(HashNode));
-	new_node -> key = key;
-	new_node -> index = index;
-	new_node -> next = NULL;
-	table -> buckets[i] = new_node;
-	new_node -> next = tmp;
-}
-
-void freeHashTable(HashTable *table)
-{
-	for (int i = 0; i < table -> size; i++)
-	{
-		HashNode *node_current = table -> buckets[i];
-		while (node_current != NULL)
-		{
-			HashNode *tmp = node_current;
-			node_current = node_current -> next;
-			free(tmp);
-		}
-	}
-	free(table -> buckets);
-	free(table);
-}
 int *twoSum(int *nums, unsigned int size, int target, unsigned int *returnSize)
 {
 	HashTable *table = createHashTable(size);
@@ -194,7 +127,7 @@ int *twoSum(int *nums, unsigned int size, int target, unsigned int *returnSize)
 	for (int i = 0; i < size; i++)
 	{
 		int complement = target - nums[i];
-		HashNode *found = find(table, complement);
+		HashNode *found = search(table, complement);
 		if (found != NULL)
 		{
 			result[0] = found -> index;
@@ -202,7 +135,7 @@ int *twoSum(int *nums, unsigned int size, int target, unsigned int *returnSize)
 			freeHashTable(table);
 			return result;
 		}
-		push(table, nums[i], i);
+		insert(table, nums[i], i);
 
 	}
 	*returnSize = 0;
@@ -215,7 +148,7 @@ int main(void)
 {
 	// Return list indices of two number such that they add up to target
 	int nums[] = {2, 3, 4, 5, 6};
-	int target = 11;
+	int target = 5;
 	unsigned int returnSize;
 	unsigned int size = sizeof(nums) / sizeof(nums[0]);
 	int *result = twoSum(nums, size, target, &returnSize);
