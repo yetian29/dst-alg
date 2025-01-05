@@ -46,12 +46,10 @@ void add(LinkList *list, int value)
 void out(LinkList *list)
 {
 	Node *node_current = list -> head;
-	printf("ptr node_current: %p\n", node_current);
 	while (node_current -> next != NULL)
 	{
 		printf("%d", (node_current -> next) -> data);
 		printf(" -> ");
-		printf("ptr node current next: %p\n", node_current -> next);
 		node_current = node_current -> next;
 
 	}
