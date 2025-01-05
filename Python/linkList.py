@@ -30,7 +30,23 @@ class LinkList:
         node_current.next = new_node
         new_node.next = tmp
     
+    def update(self, value: int, position: int):
+        node_current = self.head
+        i = 0
+        while (node_current and i < position - 1):
+            node_current = node_current.next
+            i += 1
+        node_current.next.data = value
 
+    def delete(self, position: int):
+        node_current = self.head
+        i = 0
+        while (node_current and i < position - 1):
+            node_current = node_current.next
+            i += 1
+        tmp = node_current.next
+        del node_current.next 
+        node_current.next = tmp.next
 
 
     def out(self):
@@ -39,8 +55,6 @@ class LinkList:
             print(f"{node_current.data}", end=" -> ")
             node_current = node_current.next
         print()
-
-
 
 
 def main():
@@ -53,6 +67,8 @@ def main():
     linkList.insert(6, 1)
     linkList.insert(7, 2)
     linkList.insert(8, 8)
+    linkList.update(10, 8)
+    linkList.delete(3)
     linkList.out()
 
 
