@@ -58,6 +58,47 @@ void addLast(LinkList *list, int data)
 	list -> size += 1;
 }
 
+void insert(LinkList *list, int data, unsigned int position)
+{
+	Node *new_node = create_new_node(data);
+	Node *current = list -> head;
+	unsigned int i = 0;
+	while (current != NULL && i < position)
+	{
+		current = current -> next;
+		i += 1;
+	}
+	Node *tmp  = current -> next;
+	current -> next = new_node;
+	new_node -> next = tmp;
+}
+
+void update(LinkList *list, int data, unsigned int position)
+{
+	Node *current = list -> head;
+	unsigned int i = 0;
+	while (current != NULL, i < position)
+	{
+		current = current -> next;
+		i += 1;
+	}
+	(current -> next) -> data = data;
+}
+
+void delete(LinkList *list, unsigned int position)
+{
+	Node *current = list -> head;
+	unsigned int i = 0;
+	while (current != NULL && i < position)
+	{
+		current = current -> next;
+		i += 1;
+	}
+	Node *tmp = current -> next;
+	current -> next = tmp -> next;
+	free(tmp);
+}
+
 void out(LinkList *list)
 {
 	Node *current = list -> head;
@@ -95,6 +136,11 @@ int main(void)
 	addLast(list, 8);
 	addLast(list, 9);
 	addLast(list, 10);
+	insert(list, 11, 2);
+	update(list, 12, 3);
+	delete(list, 4);
+	delete(list, 0);
+	delete(list, 3);
 	out(list);
 	freeLinkList(list);
 	return 0;
