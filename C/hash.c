@@ -45,6 +45,34 @@ void insert(HashTable *table, int key, unsigned index)
 		new_node -> next = current;
 }
 
+HashNode *search(HashTable *table, int key)
+{
+    unsigned int i  = hash(key, table -> size);
+	  HashNode *current = table -> buckets[i];
+	  while (current != NULL)
+		{
+		    if (current -> key == key) return current;
+		    current = current -> next;
+		}
+	  return NULL;
+
+}
+
+void update(HashTable *table, int key, unsigned int index)
+{
+	HashNode *found = search(table, key);
+	if (found == NULL)
+	{		
+    printf("Value key isn't stored in HashTable\n");
+	}
+	else
+	{
+		found -> index = index;
+	}
+
+
+}
+
 void freeHashTable(HashTable *table)
 {
 
@@ -85,6 +113,8 @@ int main(void)
 	{
 		insert(table, nums[i], i);
 	}
+
+	update(table, 5, 10);
 	out(table);
 	freeHashTable(table);
 
