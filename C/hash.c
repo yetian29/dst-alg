@@ -198,37 +198,27 @@ void insert(HashTable *table, int key, unsigned int index)
 
 }
 
-int *searchArray(int *array, int key)
+int *searchArray(int *array, unsigned int left, unsigned int right, int key)
 {
-
-	unsigned int length = sizeof(array) / sizeof(array[0]);
-	unsigned int middle = length / 2;
-	if (length < 2)
+	if (right >= left)
 	{
-		if (key == array[0])
-		{
-		    return &array;
-	  }
-		else 
-	      return NULL;
-
+		int mid = left + (right - left) / 2;
+		if (array[mid] == key) return &array[mid];
+		else if (array[mid] < key) return searchArray(array, mid + 1, right, key);
+		else return searchArray(array, left, mid - 1, key);
 	}
-	if (key == array[middle])
-		return &array[middle];
-	else if (key < array[middle]) 
-		return searchArray(array[:middle] , key);
-	else 
-		return searchArray(array[middle+1:], key);
+	return NULL;
+
 }
 
-void search(HashTable *table, int key)
+void search(HashTable *table, int key, int count)
 {
 	unsigned int i = hash(key, table -> size);
 	HashNode *current = table -> buckets[i];
 	int *array = LinkListToArray(current, table -> count);
-	int *found = searchArray(array, key);
+	int *found = searchArray(array, 0, table -> count - 1, key);
 	if (found != NULL) printf("Found\n");
-	else printf("Not Found\n");int found = searchArray(array, key);
+	else printf("Not Found\n");
 	free(array);
 
 }
@@ -275,7 +265,7 @@ int main(void)
 			insert(table, nums[i], i);
 	}
 	out(table);
-	search(table, 4);
+	search(table, 4, table -> count);
 	freeHashTable(table);
 
 	return 0;
