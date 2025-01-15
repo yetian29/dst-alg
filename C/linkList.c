@@ -61,6 +61,7 @@ void addLast(LinkList *list, int data)
 	}
 	(list -> tail) -> next = new_node;
 	list -> tail = new_node;
+	list -> size++;
 }
 
 void out(LinkList *list)
