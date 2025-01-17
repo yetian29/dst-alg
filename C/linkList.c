@@ -18,7 +18,7 @@ typedef struct LinkList
 
 LinkList *createLinkList()
 {
-	LinkList *list = (LinkList *)malloc(sizeof(LinkList));
+	LinkList *list = malloc(sizeof(LinkList));
 	list -> head = NULL;
 	list -> tail = NULL;
 	list -> size = 0;
@@ -27,7 +27,7 @@ LinkList *createLinkList()
 
 ListNode *createNewNode(int data)
 {
-	ListNode *new_node = (ListNode *)malloc(sizeof(ListNode));
+	ListNode *new_node = malloc(sizeof(ListNode));
 	new_node -> data = data;
 	new_node -> next = NULL;
 	return new_node;
