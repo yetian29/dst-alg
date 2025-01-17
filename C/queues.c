@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 #define CAPACITY 50
 
@@ -55,6 +56,15 @@ void delete(Queue *q)
 	}
 }
 
+bool search(Queue *q, int data)
+{
+	for (int i = q -> head; i <= q -> tail; i++)
+	{
+		if (q -> items[i] == data) return true;
+	}
+	return false;
+}
+
 void out(Queue *q)
 {
 	for (int i = q -> head; i <= q -> tail; i++)
@@ -70,15 +80,18 @@ void freeQueue(Queue *q)
 	free(q);
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {
 	Queue *q = createQueue();
+	int value;
 	insert(q, 1);
 	insert(q, 3);
 	insert(q, 5);
 	insert(q, 7);
 	delete(q);
-
+	printf("Enter value find: ");
+	scanf("%d", &value);
+	printf("Find %d in queue: %s\n", value, search(q, value) ? "Found" : "Not Found");
 	out(q);
 	freeQueue(q);
 	return 0;
