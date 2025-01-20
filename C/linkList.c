@@ -1,7 +1,6 @@
+
 #include <stdlib.h>
 #include <stdio.h>
-
-
 
 typedef struct ListNode
 {
@@ -9,7 +8,7 @@ typedef struct ListNode
 	struct ListNode *next;
 } ListNode;
 
-typedef struct LinkList
+typedef struct 
 {
 	ListNode *head;
 	ListNode *tail;
@@ -19,8 +18,12 @@ typedef struct LinkList
 LinkList *createLinkList()
 {
 	LinkList *list = malloc(sizeof(LinkList));
-	list -> head = NULL;
-	list -> tail = NULL;
+	if (list == NULL) exit(1);
+	ListNode *head = malloc(sizeof(ListNode));
+	if (head ==  NULL) exit(1);
+	head -> data = -999999999;
+	head -> next = NULL;
+	list -> head = head;
 	list -> size = 0;
 	return list;
 }
@@ -37,44 +40,40 @@ void addFirst(LinkList *list, int data)
 {
 	ListNode *current = list -> head;
 	ListNode *new_node = createNewNode(data);
-	if (current == NULL)
+
+	if (current -> next == NULL)
 	{
-		list -> head = new_node;
-		list -> size++;
-		return;
+		current -> next = new_node;
 	}
-	list -> head = new_node;
-	new_node -> next = current;
-	list -> size++;
+	else
+	{
+		ListNode *tmp = current -> next;
+		current -> next = new_node;
+		new_node -> next = tmp;
+	}
 }
 
 void addLast(LinkList *list, int data)
 {
 	ListNode *current = list -> head;
 	ListNode *new_node = createNewNode(data);
-	if (current == NULL)
+	if (current -> next == NULL)
 	{
-		list -> head = new_node;
-		list -> tail = list -> head;
-		list -> size++;
-		return;
+		current -> next = new_node;
 	}
-	(list -> tail) -> next = new_node;
+	else 
+  {
+		(list -> tail) -> next = new_node;
+	}
 	list -> tail = new_node;
-	list -> size++;
 }
+
 
 void insert(LinkList *list, int data, unsigned int position)
 {
 	ListNode *current = list -> head;
 	ListNode *new_node = createNewNode(data);
-	unsigned int i = 0;
-	if (position == 0)
-	{
-		list -> head = new_node;
-		new_node -> next = current;
-		return;
-	}
+	unsigned i = 0;
 	while (current != NULL && i < position - 1)
 	{
 		current = current -> next;
@@ -83,6 +82,7 @@ void insert(LinkList *list, int data, unsigned int position)
 	ListNode *tmp = current -> next;
 	current -> next = new_node;
 	new_node -> next = tmp;
+
 }
 
 void update(LinkList *list, int data, unsigned int position)
@@ -101,12 +101,6 @@ void delete(LinkList *list, unsigned int position)
 {
 	ListNode *current = list -> head;
 	unsigned int i = 0;
-	if (current != NULL && position == 0)
-	{
-		list -> head = current -> next;
-		free(current);
-		return;
-	}
 	while (current != NULL && i < position - 1)
 	{
 		current = current -> next;
@@ -134,18 +128,16 @@ void out(LinkList *list)
 
 void freeLinkList(LinkList *list)
 {
-	ListNode *current = list -> head;
-	while (current != NULL)
+  ListNode *current = list -> head;
+  while (current != NULL)
 	{
-		ListNode *tmp  = current;
-		current = current -> next;
+		ListNode *tmp = current;
+    current = current -> next;
 		free(tmp);
 	}
 	free(list);
 
-
 }
-
 int main(void)
 {
 	LinkList *list = createLinkList();
@@ -159,13 +151,12 @@ int main(void)
 	addLast(list, 3);
 	addLast(list, 4);
 	addLast(list, 5);
-	addLast(list, 6);
-	insert(list, 7, 2);
-	insert(list, 8, 0);
-	update(list, 10, 4);
-	delete(list, 0);
-	delete(list, 3);
+	insert(list, 10, 1);
+	update(list, 19, 4);
+	delete(list, 5);
+
 	out(list);
+	
 	freeLinkList(list);
 	return 0;
 }
