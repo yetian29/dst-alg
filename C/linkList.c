@@ -49,6 +49,7 @@ void addLast(LinkList *list, int data)
 	ListNode *new_node = createNewNode(data);
 	(list -> tail) -> next = new_node;
 	list -> tail = new_node;
+	list -> size++;
 }
 
 void insert(LinkList *list, int data, unsigned int position)
@@ -64,6 +65,39 @@ void insert(LinkList *list, int data, unsigned int position)
 	ListNode *tmp = current -> next;
 	current -> next = new_node;
 	new_node -> next = tmp;
+	list -> size++;
+}
+
+void update(LinkList *list, int data, unsigned int position)
+{
+	ListNode *current = list -> head;
+	unsigned int i = 0;
+	while (current != NULL && i < position - 1)
+	{
+		current = current -> next;
+		i++;
+	}
+	(current -> next) -> data = data;
+}
+
+void delete(LinkList *list, unsigned int position)
+{
+	if (position > list -> size)
+	{
+		printf("Position beyond range link list\n");
+		exit(1);
+	}
+	ListNode *current = list -> head;
+	unsigned int i = 0;
+	while (current != NULL && i < position - 1)
+	{
+		current = current -> next;
+		i++;
+	}
+	ListNode *tmp = current -> next;
+	current -> next = tmp -> next;
+	list -> size--;
+	free(tmp);
 }
 
 void out(LinkList *list)
@@ -108,6 +142,10 @@ int main(void)
 	addLast(list, 4);
 	addLast(list, 5);
 	insert(list, 10, 3);
+	update(list, 12, 3);
+	delete(list, 4);
+	delete(list, 1);
+	delete(list, 9);
 	out(list);
 	freeLinkList(list);
 	return 0;
