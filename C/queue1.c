@@ -64,7 +64,7 @@ int main(void)
 	insert(q, 3);
 	insert(q, 4);
 	insert(q, 5);
-	printf("Search 5 value in queue: %s\n", search(q, 5) ? "Found" : "Not Found");
+	printf("Search 10 value in queue: %s\n", search(q, 10) ? "Found" : "Not Found");
 	delete(q);
 	out(q);
 	freeQueue(q);
