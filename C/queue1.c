@@ -45,8 +45,7 @@ void out(Queue *q)
 {
 	for (int i = q -> head; i <= q -> tail; i++)
 	{
-		printf("%d", q -> items[i]);
-		printf(" | ");
+		printf("%d | ", q -> items[i]);
 	}
 	printf("\n");
 }
