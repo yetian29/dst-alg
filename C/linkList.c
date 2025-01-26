@@ -22,7 +22,7 @@ LinkList *createLinkList()
 	head -> next = NULL;
 	list -> head = head;
 	list -> tail = list -> head;
-	list -> size = 0;
+	list -> size = 1;
 	return list;
 }
 
