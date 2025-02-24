@@ -15,14 +15,14 @@ Stack *createStack(unsigned int size)
 	Stack* s = malloc(sizeof(Stack));
 	if (!s)
 	{
-		fprintf(stderr, "Memory allocate failed\n");
+		fprintf(stderr, "Memory stack allocate failed\n");
 		exit(EXIT_FAILURE);
 	}
 	s->items = calloc(size, sizeof(int));
 	if (!s->items)
 	{
 		free(s);
-		fprintf(stderr, "Memory allocate failed\n");
+		fprintf(stderr, "Memory items allocate failed\n");
 		exit(EXIT_FAILURE);
 	}
 	s->maxsize = size;
