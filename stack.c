@@ -6,14 +6,25 @@ typedef struct
 {
 	int maxsize;
 	int top;
-	int items[];
+	int *items;
 
 } Stack;
 
 Stack *createStack(unsigned int size)
 {
-	// Allocate memory for both the structure and the array
-	Stack* s = malloc(sizeof(Stack) + size * sizeof(int));
+	Stack* s = malloc(sizeof(Stack));
+	if (!s)
+	{
+		fprintf(stderr, "Memory allocate failed\n");
+		exit(EXIT_FAILURE);
+	}
+	s->items = calloc(size, sizeof(int));
+	if (!s->items)
+	{
+		free(s);
+		fprintf(stderr, "Memory allocate failed\n");
+		exit(EXIT_FAILURE);
+	}
 	s->maxsize = size;
 	s->top = -1;
 	return s;
@@ -21,7 +32,7 @@ Stack *createStack(unsigned int size)
 
 void push(Stack *s, int item)
 {
-	if (s->top == s->maxsize)
+	if (s->top == s->maxsize - 1)
 	{
 		printf("Stack has fulled, can't push item\n");
 		return;
@@ -33,7 +44,7 @@ void push(Stack *s, int item)
 
 void out(Stack *s)
 {
-	for (unsigned int i = 0; i <= s->top; i++)
+	for (int i = 0; i <= s->top; i++)
 	{
 		printf("%d | ", s->items[i]);
 
@@ -43,6 +54,7 @@ void out(Stack *s)
 
 void freeStack(Stack *s)
 {
+	free(s->items);
 	free(s);
 }
 
