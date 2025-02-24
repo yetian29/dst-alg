@@ -15,15 +15,14 @@ Stack *createStack(unsigned int size)
 	Stack* s = malloc(sizeof(Stack));
 	if (!s)
 	{
-		fprintf(stderr, "Memory stack allocate failed\n");
-		exit(EXIT_FAILURE);
+		printf("Memory stack allocate failed\n");
+		exit(1);
 	}
 	s->items = calloc(size, sizeof(int));
 	if (!s->items)
 	{
-		free(s);
-		fprintf(stderr, "Memory items allocate failed\n");
-		exit(EXIT_FAILURE);
+		printf("Memory items allocate failed\n");
+		exit(1);
 	}
 	s->maxsize = size;
 	s->top = -1;
@@ -40,6 +39,16 @@ void push(Stack *s, int item)
 	s->top++;
 	s->items[s->top] = item;
 	
+}
+
+void pop(Stack *s)
+{
+	if (s->top == -1)
+	{
+		printf("Stack is empty\n");
+		return;
+	}
+	s->top--;
 }
 
 void out(Stack *s)
@@ -65,6 +74,15 @@ int main(void)
 	push(s, 1);
 	push(s, 2);
 	push(s, 3);
+	push(s, 4);
+	push(s, 5);
+	out(s);
+	pop(s);
+	pop(s);
+	pop(s);
+	pop(s);
+	pop(s);
+	pop(s);
 	out(s);
 	freeStack(s);
 	
