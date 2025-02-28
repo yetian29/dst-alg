@@ -25,13 +25,15 @@
 /*		}*/
 /**/
 /*	}*/
-/*	printf("MaxSum: %d\n", maxSum);*/
+/*	printf("MaxSum: %i\n", maxSum);*/
 /**/
 /*	return 0;*/
 /*}*/
 
 
 #include <stdio.h>
+#include <time.h>
+
 #define INT_MIN -2147483648
 
 
@@ -40,6 +42,7 @@ int main(void)
 	int array[] = {-2, 11, -4, 13, -5, 2};
 	int size = sizeof(array) / sizeof(array[0]);
 	int maxSum = INT_MIN;
+	clock_t startT = clock();
 	for (int i = 0; i < size; i++)
 	{
 		int sum = 0;
@@ -53,6 +56,8 @@ int main(void)
 
 		}		
 	}
-	printf("MaxSum: %d\n", maxSum);
+	clock_t endT = clock();
+	printf("Process time brute_force algorithm: %f\n", (double) (endT - startT) / CLOCKS_PER_SEC);	
+	printf("MaxSum: %i\n", maxSum);
 	return 0;
 }
