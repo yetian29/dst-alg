@@ -1,7 +1,7 @@
 /*#include <stdio.h>*/
 /**/
 /**/
-/*#define INT_MIN -2^31*/
+/*#define INT_MIN -2147483648*/
 /**/
 /*int main(void)*/
 /*{*/
@@ -16,10 +16,10 @@
 /*			for (int k = i; k <= j; k++)*/
 /*			{*/
 /*				sum += array[k];*/
-/*			}*/
 /*			if (sum >= maxSum)*/
 /*			{*/
 /*				maxSum = sum;*/
+/*			}*/
 /*			}*/
 /**/
 /*		}*/
