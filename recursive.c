@@ -97,30 +97,20 @@
 
 bool BinarySearch(int array[], int low, int high, int key)
 {	
-	if (low <= high) 	
-	{
-		if (low == high) return array[low] == key;
-		int mid = low + (high - low) / 2;
-		if (key == array[mid]) return true;	
-		else if (key < array[mid]) return BinarySearch(array, low, mid - 1, key);
-		else return BinarySearch(array, mid + 1, high, key);
+	if (low == high) return array[low] == key;
+	int mid = low + (high - low) / 2;
+	if (key == array[mid]) return true;	
+	else if (key < array[mid]) return BinarySearch(array, low, mid - 1, key);
+	else return BinarySearch(array, mid + 1, high, key);
 
-	}
-	return false; // array is empty
 
 }
 
 int main(void)
 {
-	/*int array[] = {1, 2, 3, 4, 5, 6};*/
-	int array[0];
+	int array[] = {1, 2, 3, 4, 5, 6};
 	int key = 5;
 	int size = sizeof(array) / sizeof(array[0]);
-	if (size == 0) 
-	{
-		print("");
-	}
-
 	bool result = BinarySearch(array, 0, size - 1, key);
 	printf("%s\n", result ? "Found" : "Not Found");
 	return 0;
