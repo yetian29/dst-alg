@@ -189,12 +189,35 @@ int DivideAndConquer(int array[], int low, int high)
 	return Max(wl, wm, wr);
 }
 
+int Max2(int value1, int value2)
+{
+	int max = value1;
+	if (value2 > max)
+	{
+		max = value2;
+	}
+	return max;
+}
+
+int DP(int array[], int n)
+{
+	int ei = array[0];
+	int si = array[0];
+	for (int i = 1; i < n; i++)
+	{
+		ei = Max2(array[i], array[i] + ei);
+		si = Max2(si, ei);
+	}
+	return si;
+}
+
 int main(void)
 {
 	int array[] = {1, -2, 3, -4, 5, -6};
 	int n = sizeof(array) / sizeof(array[0]);
 	/*int result = BruteForce(array, n);*/
-	int result = DivideAndConquer(array, 0, n - 1);
+	/*int result = DivideAndConquer(array, 0, n - 1);*/
+	int result = DP(array, n);
 	printf("Result: %d\n", result);
 	return 0;
 }
