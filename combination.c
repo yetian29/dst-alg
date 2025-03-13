@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 
-int C(int n, int k, int memoization[][3])
+int C(int n, int k, int memoization[][4])
 {
 	if (k == 0 || k == n) return 1;
 	if (memoization[n][k] != - 1) return memoization[n][k];
@@ -10,7 +10,7 @@ int C(int n, int k, int memoization[][3])
 
 int main(void)
 {
-	int n = 5, k = 3;
+	int n = 10, k = 8;
 
 	int memoization[n + 1][k + 1];
 	for (int i = 0; i < n + 1; i++)
