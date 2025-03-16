@@ -13,8 +13,8 @@ bool IsMesureable(int weights[], int index, int size, int value)
 int main(void)
 {
 	int weights[] = {1, 3, 7};
-	int value = 6;
+	int value = 6, index = 0;
 	int size = sizeof(weights) / sizeof(weights[0]);
-	printf("%s\n", IsMesureable(weights, 0, size, value) ? "True" : "False");
+	printf("%s\n", IsMesureable(weights, index, size, value) ? "True" : "False");
 	return 0;
 }
