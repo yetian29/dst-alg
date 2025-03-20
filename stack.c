@@ -23,6 +23,7 @@ stack *initializeStack(int size)
 	if (!s->items) // equivalent s->items == NULL
 	{
 		fprintf(stderr, "Allocation memory for items failed\n");
+		free(s);
 		exit(EXIT_FAILURE);
 	}
 	return s;
@@ -36,7 +37,7 @@ void push(stack *s, int item)
 		exit(EXIT_FAILURE);
 	}
 
-	s->items[s->top++] = item;
+	s->items[++s->top] = item;
 }
 
 void pop(stack *s)
@@ -77,6 +78,8 @@ int main(void)
 	{
 		push(s, i);
 	}
+	out(s);
+	pop(s);
 	out(s);
 	freeStack(s);
 	return 0;
