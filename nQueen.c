@@ -1,52 +1,37 @@
-#include <stdio.h>
 
-bool CheckClash()
+int n = 4;
+
+
+bool IsSafe(int row, int column)
 {
+	if (maxtrix[row][column] == 1) return false
+	
+	return true;
 
 }
-
-void Queen(int matrix[4][4], int column)
+voide PlaceQueen(int matrix[n][n], int column)
 {
-	// Base case
-	if (CheckClash()) return;
-
-	// Recursive case
-	for (int row = 0; row < 4; i++)
+	if (column > 3) return;
+	for (int row = 0; row < n; row++)
 	{
-		matrix[row][column] = 1;
-		Queen(matrix, column + 1);
-		matrix[row][column] = -1;
-	}
-
-}
-
-void out(int matrix[4][4])
-{
-	for (int i = 0; i < 4; i++)
-	{
-		for (int j = 0; j < 4; j++)
+		if (IsSafe(row, column))
 		{
-			if (matrix[i][j] == 1)
-			{
-				printf("(%d, %d)\n", i, j);
-			}
+			matrix[row][column] = 1;
 		}
+	  else PlaceQueen(matrix, column + 1)
 	}
 }
+
+}
+
 
 int main(void)
 {
-	int n = 4;
-	int matrix[n][n];
+	int matrix[n][n]
 	for (int i = 0; i < n; i++)
 	{
-		for (int j = 0; j < n; i++)
-		{
-			 matrix[i][j] = -1;
-		}
+		for (int j = 0; j < n; j++) matrix[i][j] = -1;
 	}
-	Queen(matrix, 0);
-	out(matrix);
-
+	PlaceQueen(matrix)
 	return 0;
 }
