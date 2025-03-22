@@ -2,11 +2,10 @@
 
 int n = 4;
 
-void PlaceQueen(int matrix[n][n])
+
+void PlaceQueen(int matrix[n][n], int row)
 {
-
 }
-
 
 int main(void)
 {
