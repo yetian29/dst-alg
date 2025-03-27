@@ -1,8 +1,10 @@
+
+
 #include <stdio.h>
 #include <limits.h>
 #include <stdlib.h>
 
-int size = 1;
+int size = 0;
 
 typedef struct Node 
 {
@@ -37,9 +39,9 @@ void insertNewNode(Node *head, int position, int value)
 {
 	Node *ptr = head;
 	int i = 0;
-	while (ptr!= NULL && i < position - 1)
+	while (ptr->next != NULL && i < position - 1)
 	{
-		if (ptr->next != NULL) ptr = ptr->next;
+		ptr = ptr->next;
 		i++;
 	}
 	Node *tmp = ptr->next;
@@ -52,16 +54,16 @@ void insertNewNode(Node *head, int position, int value)
 
 void removalNode(Node *head, int position)
 {
-	if (position >= size)
+	if (position >= size || position < 1)
 	{
 		fprintf(stderr, "Location delete outside range\n");
 		exit(1);	
 	}
 	Node *ptr = head;
 	int i = 0;
-	while (ptr!= NULL && i < position - 1)
+	while (ptr->next!= NULL && i < position - 1)
 	{
-		if (ptr->next != NULL) ptr = ptr->next;
+		ptr = ptr->next;
 		i++;
 	}
 	Node *deleted = ptr->next;
@@ -72,7 +74,7 @@ void removalNode(Node *head, int position)
 
 }
 
-Node *initLinkList()
+Node *initSinglyLinkedList()
 {
 	Node *head = malloc(sizeof(Node));
 	if (head == NULL)
@@ -89,16 +91,17 @@ Node *initLinkList()
 void out(Node *head)
 {
 	Node *ptr = head;
-	while (ptr != NULL)
+	while (ptr->next != NULL)
 	{
+		ptr = ptr->next;
 		printf("%d", ptr->data);
 		if (ptr->next != NULL) printf(" -> ");
-		ptr = ptr->next;
+	
 	}
 	printf("\n");
 }
 
-void freeLinkList(Node *head)
+void freeSinglyLinkedList(Node *head)
 {
 	Node *ptr = head;
 	while (ptr != NULL)
@@ -111,7 +114,7 @@ void freeLinkList(Node *head)
 
 int main(void)
 {
-	Node *head = initLinkList();
+	Node *head = initSinglyLinkedList();
 	Node *tail = head;
 
 	addNewNodeToTail(&tail, 1);
@@ -122,12 +125,13 @@ int main(void)
 	insertNewNode(head, 1, 5);
 	insertNewNode(head, 3, 6);
 
-	removalNode(head, 3);
+
 	removalNode(head, 5);
-	removalNode(head, 5);
+	removalNode(head, 0);
+
 
 
 	out(head);
-	freeLinkList(head);
+	freeSinglyLinkedList(head);
 	return 0;
 }
