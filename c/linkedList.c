@@ -37,6 +37,11 @@ void addNewNodeToTail(Node **tail, int value)
 
 void insertNewNode(Node *head, int position, int value)
 {
+	if (position < 1)
+	{
+		fprintf(std, "Location insert outside range\n");
+		exit(1);
+	}
 	Node *ptr = head;
 	int i = 0;
 	while (ptr->next != NULL && i < position - 1)
@@ -110,6 +115,8 @@ void freeSinglyLinkedList(Node *head)
 		ptr = ptr->next;
 		free(tmp);
 	}
+	head = NULL;
+
 }
 
 int main(void)
