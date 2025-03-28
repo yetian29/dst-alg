@@ -1,5 +1,4 @@
 
-
 #include <limits.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -105,6 +104,7 @@ void removalNode(Node *head, Node **tail, int *size, int position)
 	{
 		Node *tmp = (*tail);
 		(*tail) = (*tail)->prev;
+		(*tail)->next = NULL;
 		(*size)--;
 		free(tmp);
 		return;
@@ -155,7 +155,6 @@ void freeDoublyLinkedList(Node *head)
 		ptr = ptr->next;
 		free(tmp);
 	}
-	head = NULL;
 }
 
 int main(void)
