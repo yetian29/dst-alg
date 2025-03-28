@@ -58,21 +58,6 @@ void insertNewNode(Node *head, Node **tail, int *size, int position, int value)
 		(*size)++;
 		return;
 	}
-	// Insert head and between doubly linked list
-	Node *ptr = head;
-	int i = 0;
-	while (ptr->next != NULL && i < position - 1)
-	{
-		ptr = ptr->next;
-		i++;
-	}
-	Node *tmp = head->next;
-	head->next = new_node;
-	new_node->prev = head;
-	new_node->next = tmp;
-	tmp->prev = new_node;
-	(*size)++;
-
 	// Insert tail doubly linked list
 	if (position > (*size))
 	{
@@ -81,7 +66,23 @@ void insertNewNode(Node *head, Node **tail, int *size, int position, int value)
 		new_node->next = NULL;
 		(*size)++;
 		(*tail) = new_node;
+		return;
 	}
+	// Insert head and between doubly linked list
+	Node *ptr = head;
+	int i = 0;
+	while (ptr->next != NULL && i < position - 1)
+	{
+		ptr = ptr->next;
+		i++;
+	}
+	Node *tmp = ptr->next;
+	ptr->next = new_node;
+	new_node->prev = head;
+	new_node->next = tmp;
+	if (!tmp) tmp->prev = new_node;
+	(*size)++;
+
 }
 
 
@@ -107,6 +108,7 @@ int main(void)
 	insertNewNode(head, &tail, &size, 1, 2);
 	insertNewNode(head, &tail, &size, 1, 3);
 	insertNewNode(head, &tail, &size, 2, 4);
+	insertNewNode(head, &tail, &size, 5, 5);
 	out(head);
 	return 0;
 
