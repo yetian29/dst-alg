@@ -35,24 +35,28 @@ Node *initDoublyLinkedList()
 		fprintf(stderr, "Allocation memory for head failed\n");
 		exit(1);
 	}
-	head->prev = NULL; 
+	head->prev = NULL;
 	head->data = INT_MIN;
 	head->next = NULL;
 	return head;
 }
 void insertNewNode(Node *head, Node **tail, int *size, int position, int value)
 {
+	Node *new_node = createNewNode(value);
+	Node *ptr = head;
+	int i = 0;
+
 	if (position < 1)
 	{
 		fprintf(stderr, "Position outside range\n");
 		exit(1);
 	}
-	Node *new_node = createNewNode(value);
+
 	// doubly linked list empty
-	if (head->next == NULL)
+	if (ptr->next == NULL)
 	{
-		head->next = new_node;
-		new_node->prev = head;
+		ptr->next = new_node;
+		new_node->prev = ptr;
 		new_node->next = NULL;
 		(*tail) = new_node;
 		(*size)++;
@@ -69,8 +73,6 @@ void insertNewNode(Node *head, Node **tail, int *size, int position, int value)
 		return;
 	}
 	// Insert head and between doubly linked list
-	Node *ptr = head;
-	int i = 0;
 	while (ptr->next != NULL && i < position - 1)
 	{
 		ptr = ptr->next;
@@ -78,21 +80,36 @@ void insertNewNode(Node *head, Node **tail, int *size, int position, int value)
 	}
 	Node *tmp = ptr->next;
 	ptr->next = new_node;
-	new_node->prev = head;
+	new_node->prev = ptr;
 	new_node->next = tmp;
-	if (!tmp) tmp->prev = new_node;
+	if (tmp != NULL) tmp->prev = new_node;
 	(*size)++;
 
 }
 
-void removalNode(int *size, int position)
+void removalNode(Node *head, Node **tail, int *size, int position)
 { 
 	//  Doubly linked list empty
-  if (size == 0)
+  if ((*size) == 0)
 	{
 		fprintf(stderr, "Doubly linked list empty\n");
 		exit(1);
 	}
+	if (position < 1)
+	{
+		fprintf(stderr, "Position outside range\n");
+		exit(1);
+	}
+	// Remove tail doubly linked list
+	if (position == (*size))
+	{
+		Node *tmp = (*tail);
+		(*tail) = (*tail)->prev;
+		(*size)--;
+		free(tmp);
+		return;
+	}
+
 	// Remove head and between doubly linked list
 	Node *ptr = head;
 	int i = 0;
@@ -102,16 +119,17 @@ void removalNode(int *size, int position)
 		i++;
 	}
 	Node *deleted = ptr->next;
-	if (!deleted) 
+	if (deleted != NULL) 
 	{
 		Node *tmp = deleted->next;
+		ptr->next = tmp;
+		if (tmp != NULL)
+		{
+			tmp->prev = ptr;
+		}
+		(*size)--;
+		free(deleted);
 	}
-	ptr->next = tmp;
-	if (!tmp) 
-	{
-		tmp->prev = ptr;
-	}
-	free(deleted);
 
 }
 
@@ -128,6 +146,18 @@ void out(Node *head)
 	printf("\n");
 }
 
+void freeDoublyLinkedList(Node *head)
+{
+	Node *ptr = head;
+	while (ptr != NULL)
+	{
+		Node *tmp = ptr;
+		ptr = ptr->next;
+		free(tmp);
+	}
+	head = NULL;
+}
+
 int main(void)
 {
 	Node *head = initDoublyLinkedList();
@@ -139,6 +169,11 @@ int main(void)
 	insertNewNode(head, &tail, &size, 1, 3);
 	insertNewNode(head, &tail, &size, 2, 4);
 	insertNewNode(head, &tail, &size, 5, 5);
+
+	/*removalNode(head, &tail, &size, 0);*/
+	/*removalNode(head, &tail, &size, 1);*/
+	removalNode(head, &tail, &size, 5);
+	
 	out(head);
 	return 0;
 
