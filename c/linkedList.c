@@ -155,6 +155,7 @@ void freeDoublyLinkedList(Node *head)
 		ptr = ptr->next;
 		free(tmp);
 	}
+	head = NULL;
 }
 
 int main(void)
