@@ -173,8 +173,9 @@ int main(void)
 	/*removalNode(head, &tail, &size, 0);*/
 	/*removalNode(head, &tail, &size, 1);*/
 	removalNode(head, &tail, &size, 5);
-	
 	out(head);
+	freeDoublyLinkedList(head);
+	
 	return 0;
 
 }
