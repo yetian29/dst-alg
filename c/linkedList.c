@@ -85,6 +85,36 @@ void insertNewNode(Node *head, Node **tail, int *size, int position, int value)
 
 }
 
+void removalNode(int *size, int position)
+{ 
+	//  Doubly linked list empty
+  if (size == 0)
+	{
+		fprintf(stderr, "Doubly linked list empty\n");
+		exit(1);
+	}
+	// Remove head and between doubly linked list
+	Node *ptr = head;
+	int i = 0;
+	while (ptr->next != NULL && i < position - 1)
+	{
+		ptr = ptr->next;
+		i++;
+	}
+	Node *deleted = ptr->next;
+	if (!deleted) 
+	{
+		Node *tmp = deleted->next;
+	}
+	ptr->next = tmp;
+	if (!tmp) 
+	{
+		tmp->prev = ptr;
+	}
+	free(deleted);
+
+}
+
 
 void out(Node *head)
 {
