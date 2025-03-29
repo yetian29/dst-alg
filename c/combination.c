@@ -1,25 +1,35 @@
 #include <stdio.h>
 
 
-int C(int n, int k, int memoization[][9])
+int size = 1000;
+
+int C(int n, int k, int memoization[size][size])
 {
-	if (k == 0 || k == n) return 1;
+	// Base Case
+	if (n == k || k == 0)
+	{
+		return 1;
+	}
+	
+	// Recursive Base
 	if (memoization[n][k] != - 1) return memoization[n][k];
+
 	return C(n - 1, k, memoization) + C(n - 1, k - 1, memoization);
 }
 
+
 int main(void)
 {
-	int n = 10, k = 8;
-
-	int memoization[n + 1][k + 1];
-	for (int i = 0; i < n + 1; i++)
+	int n = 5, k = 3;
+	int memoization[size][size];
+	for (int i = 0; i < size; i++)
 	{
-		for (int j = 0 ; j < k + 1; j++)
+		for (int j = 0; j < size; j++)
 		{
 			memoization[i][j] = -1;
 		}
-
 	}
-	printf("Result: %d\n", C(n, k, memoization));
+	int result = C(n, k, memoization);
+	printf("Result: %d\n", result);
+	return 0;
 }
