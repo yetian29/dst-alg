@@ -27,7 +27,7 @@ Queue *InitializeQueue(int capacity)
 	}
 	queue->size = 0;
 	queue->front = 0;
-	queue->rear = 0;
+	queue->rear = -1;
 	queue->capacity = capacity;
 	return queue;
 }
@@ -40,20 +40,33 @@ void EnQueue(Queue *queue, int item)
 		fprintf(stderr, "Queue if fulled\n");
 		exit(1);
 	}
-	queue->buffer[queue->rear] = item;
 	queue->rear = (queue->rear + 1) % (queue->capacity);
+	queue->buffer[queue->rear] = item;
 	queue->size++;
+}
+
+void DeQueue(Queue *queue)
+{
+	if (queue->size == 0)
+	{
+		fprintf(stderr, "Queue is emptied\n");
+		exit(1);
+	}
+	queue->front = (queue->front + 1) % (queue->capacity);
+	queue->size--;
 }
 
 void Out(Queue *q)
 {
-	for (int i = (q->front); i < q->size; i++)
+	for (int i = q->front; i <= q->rear; i++)
 	{
 		printf("%d", q->buffer[i]);
-		if (q->buffer[i + 1]) printf(" | ");
+		if (i < q->rear) printf(" | ");
 	}
 	printf("\n");
+
 }
+
 
 void FreeQueue(Queue *queue)
 {
@@ -67,6 +80,9 @@ int main(void)
 	Queue *queue = InitializeQueue(capacity);
 	EnQueue(queue, 1);
 	EnQueue(queue, 2);
+	EnQueue(queue, 3);
+	Out(queue);
+	DeQueue(queue);
 	Out(queue);
 	return 0;
 }
