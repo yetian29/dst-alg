@@ -37,7 +37,7 @@ void EnQueue(Queue *queue, int item)
 	// Queue is full
 	if (queue->size == queue->capacity)
 	{
-		fprintf(stderr, "Queue if fulled\n");
+		fprintf(stderr, "Queue is fulled\n");
 		exit(1);
 	}
 	queue->rear = (queue->rear + 1) % (queue->capacity);
@@ -56,12 +56,36 @@ void DeQueue(Queue *queue)
 	queue->size--;
 }
 
-void Out(Queue *q)
+int GetFront(Queue *queue)
 {
-	for (int i = q->front; i <= q->rear; i++)
+	if (queue->size == 0)
 	{
-		printf("%d", q->buffer[i]);
-		if (i < q->rear) printf(" | ");
+		fprintf(stderr, "Queue is empty\n");
+		exit(1);
+	}
+	return queue->buffer[queue->front];
+}
+
+int GetRear(Queue *queue)
+{
+	if (queue->size == 0)
+	{
+		fprintf(stderr, "Queue is empty\n");
+		exit(1);
+	}
+	return queue->buffer[queue->rear];
+}
+
+void Out(Queue *queue)
+{
+	int count = 0;
+	int index = queue->front;
+	while (count < queue->size)
+	{
+		printf("%d", queue->buffer[index]);
+		if (count < queue->size - 1) printf(" | ");
+		count++;
+		index = (index + 1) % (queue->capacity);
 	}
 	printf("\n");
 
@@ -84,5 +108,9 @@ int main(void)
 	Out(queue);
 	DeQueue(queue);
 	Out(queue);
+	int value_front = GetFront(queue);
+	int value_rear = GetRear(queue);
+	printf("Value front queue: %d\n", value_front);
+	printf("Value rear queue: %d\n", value_rear);
 	return 0;
 }
