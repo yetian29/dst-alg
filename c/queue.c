@@ -117,6 +117,8 @@
 
 #include <limits.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <stdbool.h>
 
 typedef struct Node
 {
@@ -128,7 +130,8 @@ typedef struct Node
 typedef struct Queue
 {
 	struct Node *head;  // Node head is Node dummy
-	struct Node *last;
+	struct Node *last;  // Node last of queue
+	int size;
 } Queue;
 
 Queue *InitializeQueue()
@@ -145,10 +148,11 @@ Queue *InitializeQueue()
 		fprintf(stderr, "Allocation for node head failed\n");
 		exit(1);
 	}
-	head->data = INT_MIN;
-	head->prev = NULL;
-	head->next = NULL;
-	queue->last = head;
+	(queue->head)->data = INT_MIN;
+	(queue->head)->prev = NULL;
+	(queue->head)->next = NULL;
+	queue->last = queue->head;
+	queue->size = 0;
 	return queue;
 }
 
@@ -167,11 +171,70 @@ Node *CreateNewNode(int item)
 
 }
 
+bool IsEmpty(Queue *queue)
+{
+	return queue->size == 0;
+}
+
 void EnQueue(Queue *queue, int item)
 {
 	Node *new_node = CreateNewNode(item);
+	(queue->last)->next = new_node;
+	new_node->prev = queue->last;
+	queue->last = new_node;
+	queue->size++;
+}
 
+void DeQueue(Queue *queue)
+{
+	if (IsEmpty(queue))
+	{
+		fprintf(stderr, "Queue is emptied\n");
+		exit(1);
+	}
+	Node *ptr = queue->head;
+	Node *tmp = ptr->next;
+	ptr->next = tmp->next;
+	if (tmp->next)
+	{
+		(tmp->next)->prev = ptr;
+	}
+	else
+	{
+		queue->last = queue->head;
+	}
+	queue->size--;
+	free(tmp);
+}
 
+void Out(Queue *queue)
+{
+	if (IsEmpty(queue))
+	{	
+		fprintf(stderr, "Queue is emptied\n");
+		exit(1);	
+	}
+	Node *ptr = (queue->head)->next;
+	while (ptr != NULL)
+	{
+		printf("%d", ptr->data);
+		if (ptr->next) printf(" <-> ");
+		ptr = ptr->next;
+	}
+	printf("\n");
+}
+
+void FreeQueue(Queue *queue)
+{
+	Node *ptr = queue->head;
+	while (ptr != NULL)
+	{
+		Node *tmp = ptr;
+		ptr = ptr->next;
+		free(tmp);
+	}
+	queue->head = NULL;
+	free(queue);
 
 }
 
@@ -179,5 +242,13 @@ int main(void)
 {
 	Queue *queue = InitializeQueue();
 	EnQueue(queue, 1);
-
+	EnQueue(queue, 2);
+	EnQueue(queue, 3);
+	EnQueue(queue, 4);
+	Out(queue);
+	DeQueue(queue);
+	DeQueue(queue);
+	DeQueue(queue);
+	Out(queue);
+	FreeQueue(queue);
 }
