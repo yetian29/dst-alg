@@ -84,6 +84,11 @@ bool isFull(bucket *b)
     return b->size == b->capacity;
 }
 
+bool isEmpty(bucket *b)
+{
+    return b->size == 0;
+}
+
 void append(bucket *b, int item)
 {
     // Bucket is full
@@ -98,8 +103,91 @@ void append(bucket *b, int item)
 
 }
 
+void extend(bucket *b, int array[], int lengthArray)
+{
+    for (int j = 0; j < lengthArray; j++)
+    {
+        b->items[b->tail] = array[j];
+        b->tail++;
+        b->size++;
+    }
+
+
+}
+
+void insert(bucket *b, int position, int item)
+{
+   
+    if (b->size == b->capacity)
+    {
+        b->capacity *= 2;
+        b->items = realloc(b->items, b->capacity * sizeof(int));
+    }
+
+    for (int i = position; i < b->tail; i++)
+    {
+        b->items[i + 1] = b->items[i]; // Move right to get the blank cell to insert
+    }
+    b->items[position] = item;
+    b->tail++;
+    b->size++;
+    
+}
+
+void removeItem(bucket *b, int item)
+{
+    for (int i = 0; i < b->tail; i++)
+    {
+        if (b->items[i] == item)
+        {
+            b->items[i] = 0; // case deleted           
+        
+            for (int j = i; j < b->tail; j++)
+            {
+                b->items[j] = b->items[j + 1];
+            }
+            b->tail--;
+            b->size--;
+            return;
+        }
+
+    }
+    fprintf(stderr, "Not found item need to remove in bucket\n");
+    exit(1);
+
+}
+
+void pop(bucket *b, int position)
+{
+    if (position < 0 || position >= b->tail)
+    {
+        fprintf(stderr, "Bucket is empty or index is outside the bucket\n");
+        exit(1);
+    }
+    for (int i = position; i < b->tail; i++)
+    {
+        b->items[i] = b->items[i+1]; // Move left to fill blank cell 
+    }
+    b->tail--;
+    b->size--;
+
+    
+}
+
+void clear(bucket *b)
+{ 
+    b->tail = 0;
+    b->size = 0;   
+}
+
 void out(bucket *b)
 {
+    if (isEmpty(b))
+    {
+        printf("Bucket is empty\n");
+        return;
+    }
+    printf("Size array: %d, Capacity: %d, Tail: %d\n", b->size, b->capacity, b->tail);
     for (int i = 0; i < b->tail; i++)
     {
         printf("%d", b->items[i]);
@@ -117,12 +205,34 @@ void freeBucket(bucket *b)
 int main(void)
 {
     int capacity = 1;
+    int array[] = {6, 7, 8, 9};
+    int lengthArray = sizeof(array) / sizeof(array[0]);
     bucket *bucket = initializeBucket(capacity);
-    append(bucket, 1);
-    append(bucket, 2);
-    append(bucket, 3);
+    // append(bucket, 1);
+    // append(bucket, 2);
+    // append(bucket, 3);
+    // append(bucket, 4);
+    // append(bucket, 5);
+    // out(bucket);
+    // extend(bucket, array, lengthArray);
+    // out(bucket);
+    insert(bucket, 0, 1);
+    insert(bucket, 0, 2);
+    insert(bucket, 2, 3);
     out(bucket);
-    // freeBucket(bucket);
+    // removeItem(bucket , 2);
+    // removeItem(bucket, 5);
+    // out(bucket);
+    // pop(bucket, -1);
+    // pop(bucket , 3);
+    // pop(bucket, 0);
+    // pop(bucket, 2);
+    // out(bucket);
+    clear(bucket);
+    out(bucket);
+    append(bucket, 5);
+    out(bucket);
+    freeBucket(bucket);
     return 0;
 }
 
