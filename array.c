@@ -180,6 +180,53 @@ void clear(bucket *b)
     b->size = 0;   
 }
 
+int indx(bucket *b, int item)
+{
+    for (int i = 0; i < b->tail; i++)
+    {
+        if (b->items[i] == item) return i;
+    }
+    fprintf(stderr, "There is no such item\n");
+    exit(1);
+}
+
+int count(bucket *b, int item)
+{
+    int c = 0;
+    for (int i = 0; i < b->tail; i++)
+    {
+        if (b->items[i] == item) c++;
+    }
+    return c;
+}
+
+
+void  reverse(bucket *b, int low, int high)
+{
+   
+    // int ptr_head = low;
+    // int ptr_tail = high;
+    // while (ptr_head <= ptr_tail)
+    // {
+    //     int tmp =  b->items[ptr_head];
+    //     b->items[ptr_head] = b->items[ptr_tail];
+    //     b->items[ptr_tail] = tmp;
+    //     ptr_head++;
+    //     ptr_tail--;
+    // }
+
+
+    // Base case recursive
+    if (low >= high) return; 
+    // Recursive
+    int tmp = b->items[low];
+    b->items[low] = b->items[high];
+    b->items[high] = tmp;
+    reverse(b, low + 1, high - 1);    
+       
+}
+
+
 void out(bucket *b)
 {
     if (isEmpty(b))
@@ -219,6 +266,7 @@ int main(void)
     insert(bucket, 0, 1);
     insert(bucket, 0, 2);
     insert(bucket, 2, 3);
+    insert(bucket,2, 3);
     out(bucket);
     // removeItem(bucket , 2);
     // removeItem(bucket, 5);
@@ -228,9 +276,17 @@ int main(void)
     // pop(bucket, 0);
     // pop(bucket, 2);
     // out(bucket);
-    clear(bucket);
-    out(bucket);
-    append(bucket, 5);
+    // clear(bucket);
+    // out(bucket);
+    // append(bucket, 5);
+    // out(bucket);
+    // int i  = indx(bucket, 5);
+    // int i = indx(bucket, 1);
+    // printf("Index: %d\n", i);
+    // int c = count(bucket, 3);
+    // printf("Count: %d\n", c);
+
+    reverse(bucket, 0, bucket->size - 1);
     out(bucket);
     freeBucket(bucket);
     return 0;
